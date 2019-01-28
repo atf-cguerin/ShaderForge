@@ -559,7 +559,7 @@ namespace ShaderForge {
 			App( "#pragma fragment frag" );
 
 
-
+#if !UNITY_2018_1_OR_NEWER // these macros are already defined by Unity.
 			switch( currentPass ) {
 				case PassType.FwdBase:
 					App( "#define UNITY_PASS_FORWARDBASE" );
@@ -577,7 +577,7 @@ namespace ShaderForge {
 					App( "#define UNITY_PASS_META 1" );
 					break;
 			}
-
+#endif
 
 			if( LightmappedAndLit() ) {
 				App( "#define SHOULD_SAMPLE_SH ( defined (LIGHTMAP_OFF) && defined(DYNAMICLIGHTMAP_OFF) )" );
@@ -959,10 +959,19 @@ namespace ShaderForge {
 			if( SF_Evaluator.inVert && ps.catLighting.IsVertexLit() && ShouldUseLightMacros() )
 				App( "TRANSFER_VERTEX_TO_FRAGMENT(o)" );
 
+#if UNITY_2018_1_OR_NEWER
+			if (ShouldUseLightMacros()) {
+				string s = ( ( currentProgram == ShaderProgram.Frag ) ? "i" : "o" );
+				App( "UNITY_LIGHT_ATTENUATION(attenuation, " + s + ", " + s + ".posWorld.xyz);" );
+			} else {
+				App( "float attenuation = 1;" );
+			}
+#else
 			string atten = "LIGHT_ATTENUATION(" + ( ( currentProgram == ShaderProgram.Frag ) ? "i" : "o" ) + ")";
 
 			string inner = ( ShouldUseLightMacros() ? atten : "1" );
 			App( "float attenuation = " + inner + ";" );
+#endif
 			if( ps.catLighting.lightMode != SFPSC_Lighting.LightMode.Unlit )
 				App( "float3 attenColor = attenuation * _LightColor0.xyz;" );
 		}
