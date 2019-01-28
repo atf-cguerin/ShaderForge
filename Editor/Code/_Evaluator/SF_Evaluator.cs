@@ -632,6 +632,9 @@ namespace ShaderForge {
 			}
 
 			if( LightmappedAndLit() ) {
+				if (currentPass == PassType.Deferred) {
+					App("#pragma multi_compile ___ LIGHTPROBE_SH");
+				}
 				App( "#pragma multi_compile LIGHTMAP_OFF LIGHTMAP_ON" );
 				App( "#pragma multi_compile DIRLIGHTMAP_OFF DIRLIGHTMAP_COMBINED DIRLIGHTMAP_SEPARATE" );
 				App( "#pragma multi_compile DYNAMICLIGHTMAP_OFF DYNAMICLIGHTMAP_ON" );
