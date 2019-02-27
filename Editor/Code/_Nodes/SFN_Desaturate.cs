@@ -35,9 +35,9 @@ namespace ShaderForge {
 
 		public override void OnUpdateNode( NodeUpdateType updType, bool cascade = true ) {
 			if(GetEvaluatedComponentCount() == 3){
-				this["OUT"].valueType = ValueType.VTv3;
+				this["OUT"].SetValueType(ValueType.VTv3);
 			} else {
-				this["OUT"].valueType = ValueType.VTv1;
+				this["OUT"].SetValueType(ValueType.VTv1);
 			}
 			if( InputsConnected() )
 				RefreshValue( 1, 2 );
