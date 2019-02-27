@@ -271,7 +271,7 @@ namespace ShaderForge {
 			
 			
 			for(int i=0;i<usedRenderers.Length;i++){
-				bool isDX11orGlCore = ( i == (int)RenderPlatform.d3d11 ) || i == (int)RenderPlatform.glcore;
+				bool isDX11orGlCore = ( i == (int)RenderPlatform.d3d11 ) || i == (int)RenderPlatform.glcore || i == (int)RenderPlatform.ps4 || i == (int)RenderPlatform.xboxone;
 				
 				r.width = 20;
 				
